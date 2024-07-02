@@ -18,7 +18,7 @@
     width: 320px;
     padding: 20px;
     margin: 0 auto;
-    border-radius: 20px;
+    border-radius: 15px;
 }
 
 #display {
@@ -28,7 +28,8 @@
     margin-bottom: 20px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 28px;
-    border-radius: 8px;
+    border-radius: 5px;
+    box-shadow: inset 1px 1px 4px 2px black;
 }
 
 #buttons {
@@ -45,6 +46,7 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
     border-radius: 5px;
+    box-shadow: 2px 2px 3px 0 black;
 }
 
 .operator {
