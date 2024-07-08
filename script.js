@@ -36,6 +36,8 @@ const edit = document.querySelector("#edit");
 const buttons = document.querySelector("#buttons");
 const equals = document.querySelector("#equals");
 
+let isResult = false;
+
 buttons.addEventListener("click", (event) => {
   if (event.target.classList.contains("btn")) {
 
@@ -50,10 +52,15 @@ buttons.addEventListener("click", (event) => {
 
     // if n1 is equal to number (or string) allow operators except for "equals"
     if (operator === null) {
-      if (event.target.classList.contains("num")) {
+      if (event.target.classList.contains("num") && isResult === false) {
         // if target is number, concat n1 with event.target.value
         display.textContent += event.target.value;
         n1 = display.textContent;
+        return;
+      } else if (event.target.classList.contains("num") && isResult === true) {
+        display.textContent = event.target.value;
+        n1 = display.textContent;
+        isResult = false;
         return;
       } else if (event.target.classList.contains("arithmetic")) {
         // if target is operator, assign operator to event.target.value
@@ -86,11 +93,13 @@ buttons.addEventListener("click", (event) => {
 
 equals.addEventListener("click", () => {
   // update display with result for operate function
-  result = operate(operator, parseInt(n1), parseInt(n2));
+  let result = operate(operator, parseInt(n1), parseInt(n2));
   display.textContent = result;
   n1 = result;
   
   operator = n2 = null;
+
+  isResult = true;
   return;
 })
 
