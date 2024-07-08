@@ -14,9 +14,9 @@
 }
 
 #calculator {
-    background: gray;
-    width: 320px;
-    padding: 20px;
+    background: slategray;
+    width: 328px;
+    padding: 24px;
     margin: 0 auto;
     border-radius: 15px;
 }
@@ -24,12 +24,26 @@
 #display {
     background: rgb(189, 202, 158);
     text-align: end;
-    padding: 10px 15px;
-    margin-bottom: 20px;
+    padding: 8px 16px;
+    margin-bottom: 24px;
+
+    /* Change font to monospace without serif */
     font-family: 'Courier New', Courier, monospace;
+    
     font-size: 28px;
     border-radius: 5px;
     box-shadow: inset 1px 1px 4px 2px black;
+}
+
+#edit {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.edit {
+    background-color: dimgray;
+    color: white;
 }
 
 #buttons {
@@ -38,15 +52,19 @@
     gap: 8px;
 }
 
-.btn {
+.btn,
+#equals {
     width: 64px;
     border: 0;
     padding: 10px;
-    background-color: white;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 20px;
     border-radius: 5px;
     box-shadow: 2px 2px 3px 0 black;
+}
+
+.num {
+    background-color: white;
 }
 
 .operator {
