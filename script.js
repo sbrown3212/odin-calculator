@@ -88,6 +88,18 @@ buttons.addEventListener("click", (event) => {
 
     // if arithmetic operator is clicked when n1, n2, and operator != null 
     // (operate current values and assign result to n1 and set operator to value of button clicked)
+    if (n1 && n2 && operator && event.target.classList.contains("arithmetic")) {
+      let result = operate(operator, parseInt(n1), parseInt(n2));
+      display.textContent = result;
+      n1 = result;
+      
+      display.textContent += " " + event.target.value + " ";
+      operator = event.target.value;
+      
+      n2 = null;
+
+      return;
+    }
   }
 })
 
