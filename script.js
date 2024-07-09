@@ -19,15 +19,37 @@ const subtractOp = "-";
 const multiplyOp = "x";
 const divideOp = "/";
 
+const DECIMALPLACES = 5;
+
+const roundTO = (n, decimalPlaces) => {
+  // found at https://stackoverflow.com/questions/15762768/javascript-math-round-to-two-decimal-places
+  // Answer by Rick Calder - Edit 4 (with exception to parseFloat(n) to avoid displaying unnecessary zeros)
+  let negative = false;
+  if (n < 0) {
+    negative = true;
+    n = n * -1;
+  }
+  let multiplicator = Math.pow(10, decimalPlaces);
+  n = parseFloat((n * multiplicator).toFixed(11));
+  n = (Math.round(n) / multiplicator).toFixed(decimalPlaces);
+  if (negative) {
+    n = (n * -1).toFixed(decimalPlaces);
+  }
+  n = parseFloat(n);
+  return n;
+}
+
 const operate = (operator, a, b) => {
+  a = parseFloat(a), b = parseFloat(b);
+
   if (operator === addOp) {
-    return add(a, b);
+    return roundTO(add(a, b), DECIMALPLACES);
   } else if (operator === subtractOp) {
-    return subtract(a, b);
+    return roundTO(subtract(a, b), DECIMALPLACES);
   } else if (operator === multiplyOp) {
-    return multiply(a, b);
+    return roundTO(multiply(a, b), DECIMALPLACES);
   } else if (operator === divideOp) {
-    return divide(a, b);
+    return roundTO(divide(a, b), DECIMALPLACES);
   }
 }
 
@@ -86,10 +108,9 @@ buttons.addEventListener("click", (event) => {
       }
     }
 
-    // if arithmetic operator is clicked when n1, n2, and operator != null 
-    // (operate current values and assign result to n1 and set operator to value of button clicked)
+    // if arithmetic operator is clicked when n1, n2, and operator != null
     if (n1 && n2 && operator && event.target.classList.contains("arithmetic")) {
-      let result = operate(operator, parseInt(n1), parseInt(n2));
+      let result = operate(operator, n1, n2);
       display.textContent = result;
       n1 = result;
       
@@ -105,7 +126,7 @@ buttons.addEventListener("click", (event) => {
 
 equals.addEventListener("click", () => {
   // update display with result for operate function
-  let result = operate(operator, parseInt(n1), parseInt(n2));
+  let result = operate(operator, n1, n2);
   display.textContent = result;
   n1 = result;
   
@@ -115,4 +136,44 @@ equals.addEventListener("click", () => {
   return;
 })
 
-// edit event listener
+edit.addEventListener("click", (event) => {
+  if (event.target.classList.contains("btn")) {
+    if (event.target.value === "clear") {
+      display.textContent = "0";
+      n1 = n2 = operator = null;
+      return;
+    } else if (event.target.value === "delete") {
+      // delete next character from display
+      if (display.textContent.slice(-1) === " ") {
+        // when next character to be deleted is a space, delete the next 3 characters (ex. space, operator, space)
+        display.textContent = display.textContent.slice(0, -3);
+        operator = null;
+      } else {
+        display.textContent = display.textContent.slice(0, -1);
+      }
+
+      let array = display.textContent.split(" ");
+
+      if (array[0] === "") {
+        // when the last digit of n1 has been deleted
+        n1 = null;
+        display.textContent = "0";
+      } else if (array[2] === "") {
+        // when the last digit of n2 has been deleted
+        n2 = null;
+      } else if (array.length === 1) {
+        // when a digit from n1 has been deleted
+        n1 = array[array.length - 1];
+      } else if (array.length === 3) {
+        // when a digit from n2 has been deleted
+        n2 = array[array.length - 1];
+      }
+
+      return;
+    }
+  }
+})
+
+// TODO: display snarky message if dividing by zero
+// TODO: EXTRA CREDIT prevent more than one decimal in a number
+// TODO: EXTRA CREDIT add keyboard support
